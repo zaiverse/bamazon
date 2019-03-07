@@ -16,9 +16,27 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
     if (err) throw err;
-    displayItems();
+    welcomeToBamazon();
 });
 
+function welcomeToBamazon(){
+    inquirer.prompt([
+        {
+            name:"decide",
+            type:"list",
+            message:"Welcome to Bamazon, would you like to view our items for purchase?",
+            choices:[
+                "yes", "no, exit program"
+            ]
+        }
+    ]).then(function(answer){
+        if(answer.decide === "yes"){
+            displayItems();
+        }else{
+            connection.end();
+        }
+    })
+}
 
 ///display all items for sale
 function displayItems(){
@@ -58,8 +76,9 @@ function displayItems(){
             connection.query("SELECT product_name,department_name,price,stock_quantity FROM products WHERE ?",{id: answer.chooseID}, function(err, res){
                 if(err) throw err;
                 //check whether the users amount does not exceed the amount in inventory
-                if(answer.amount > res[0].stock_quantity){
-                    console.log("There is not enough inventory, please buy a lower quantity")
+                if(answer.amount > res[0].stock_quantity || res[0].stock_quantity < 0){
+                    console.log("\nThere is not enough inventory, please buy a lower quantity\n");
+                    return welcomeToBamazon();
                 }
                 var subtract = res[0].stock_quantity - answer.amount;
                 //if inventory sufficent; update sql 
@@ -78,13 +97,12 @@ function updataDatabase(subtract, answer){
     connection.query("SELECT product_name,department_name,price,stock_quantity FROM products WHERE ?",{id: answer.chooseID}, function(err, res){
         if(err) throw err;
         var total = answer.amount * res[0].price;
+        //display amount user was charged
         console.log("\n");
         console.log("--------------------You purchased-------------------------\n");
         console.log("Product Name: " + res[0].product_name);
         console.log("quantity: " + answer.amount);
         console.log("amount due: " + total);
-        connection.end();
+        welcomeToBamazon();
     })
 }
-
-//display amount user was charged
