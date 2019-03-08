@@ -103,6 +103,7 @@ function updataDatabase(subtract, answer){
         console.log("Product Name: " + res[0].product_name);
         console.log("quantity: " + answer.amount);
         console.log("amount due: " + total);
+        console.log("\n");
         welcomeToBamazon();
     })
 }
