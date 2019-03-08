@@ -71,11 +71,21 @@ function viewProducts(){
 
 //display products that have an inventory less than five
 function lowInventory(){
-    connection.query("SELECT ",function(err, res){
-        if (err) throw err;
-        if(){
-
+    connection.query("SELECT id,product_name,department_name,price,stock_quantity FROM products WHERE stock_quantity BETWEEN 1 AND 5",function(err, res){
+        if(res){
+            for (var i = 0; i < res.length; i++) {
+                console.log("\n");
+                console.log("ID: " + res[i].id);
+                console.log("Product Name: " + res[i].product_name);
+                console.log("Department: " + res[i].department_name);
+                console.log("Price: " + res[i].price);
+                console.log("Stock Quantity: " + res[i].stock_quantity);
+            }
+            console.log("\n")
+            manageBamazon();
+        }else{
+            console.log("\n\nNothing under 5\n");
+            manageBamazon();
         }
-
     })
 }
