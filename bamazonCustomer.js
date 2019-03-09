@@ -81,16 +81,21 @@ function displayItems(){
                     return welcomeToBamazon();
                 }
                 var subtract = res[0].stock_quantity - answer.amount;
+                var productBrought = answer.amount * res[0].price;
                 //if inventory sufficent; update sql 
-                updataDatabase(subtract, answer)
+                updataDatabase(subtract, productBrought, answer)
             })
         });
     })
 }
 
 
-function updataDatabase(subtract, answer){
+function updataDatabase(subtract,productBrought, answer){
     connection.query("UPDATE products SET stock_quantity=? WHERE id=?", [subtract, answer.chooseID], function(err, res){
+        if(err) throw err;
+    })
+
+    connection.query("UPDATE products SET product_sales=? WHERE id=?", [productBrought, answer.chooseID], function(err, res){
         if(err) throw err;
     })
 

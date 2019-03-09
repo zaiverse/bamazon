@@ -14,7 +14,15 @@ CREATE TABLE products(
   PRIMARY KEY(id)
 );
 
---add content to table--
+CREATE TABLE departments(
+  id INT NOT NULL AUTO_INCREMENT,
+  department_id INT NULL,
+  department_name VARCHAR(30),
+  overheadCosts DECIMAL(10,2) NULL,
+  PRIMARY KEY(id)
+);
+
+--add content to products table--
 INSERT INTO products(product_name,department_name,price,stock_quantity)
 VALUES ("I love cats mug","home and kitchen",14.32,17);
 
@@ -45,3 +53,19 @@ VALUES ("science lab starter kit","science",34.47,32);
 INSERT INTO products(product_name,department_name,price,stock_quantity)
 VALUES ("stars ceiling stickers","decor",21.39,13);
 
+
+--add items to departments tables--
+INSERT INTO departments(department_id,department_name,overheadCosts)
+VALUES (1,"home and kitchen",1000);
+
+INSERT INTO departments(department_id,department_name,overheadCosts)
+VALUES (2,"books",700);
+
+INSERT INTO departments(department_id,department_name,overheadCosts)
+VALUES (3,"pets",2000);
+
+INSERT INTO departments(department_id,department_name,overheadCosts)
+VALUES (4,"electronics",8000);
+
+INSERT INTO departments(department_id,department_name,overheadCosts)
+VALUES (5,"toys",1500);
