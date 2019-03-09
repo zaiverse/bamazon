@@ -130,7 +130,7 @@ function continuedAdd(adding, answer){
         console.log("Department: " + res[0].department_name);
         console.log("Price: " + res[0].price);
         console.log("Stock Quantity: " + res[0].stock_quantity);
-        console.log("\n\n");
+        console.log("\n");
 
     manageBamazon();
     })
@@ -140,11 +140,35 @@ function continuedAdd(adding, answer){
 function newProducts(){
     inquirer.prompt([
         {
-            name:"",
-            type:"",
-            message:""
+            name:"product",
+            type:"input",
+            message:"enter name of product: "
+        },
+        {
+            name:"department",
+            type:"input",
+            message:"enter department of product: "
+        },
+        {
+            name:"price",
+            type:"input",
+            message:"enter price of product: "
+        },
+        {
+            name:"stock",
+            type:"input",
+            message:"enter stock quantity of product: "
         }
     ]).then(function(answer){
-
+        connection.query("INSERT INTO products (product_name,department_name,price,stock_quantity) values (?,?,?,?)", [answer.product, answer.department, answer.price, answer.stock],function(err, res){
+            if(err) throw err;
+            console.log("\n");
+            console.log("Product Name: " + res[0].product_name);
+            console.log("Department: " + res[0].department_name);
+            console.log("Price: " + res[0].price);
+            console.log("Stock Quantity: " + res[0].stock_quantity);
+            console.log("\n\n");
+            manageBamazon();
+        })
     })
 }
